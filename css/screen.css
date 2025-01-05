@@ -3,20 +3,55 @@ body, html {
     padding: 0;
     height: 100%;
     overflow: hidden;
+    font-family: 'Comic Sans MS', 'Arial', sans-serif; /* Style décalé */
+    background-color: #f4f4f4;
 }
 
 #scoreTable {
-    width: 100%;
+    width: 80%;
+    margin: 50px auto;
     text-align: center;
-    margin-top: 50px;
-    opacity: 1;
-    transform: translateY(0);
+    border-collapse: collapse;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background-color: #fff3e0;
+    border: 5px solid #ff5722;  /* Bordure couleur piment */
     transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 #scoreTable.hidden {
     opacity: 0;
     transform: translateY(-30px);
+}
+
+h1 {
+    font-size: 3em;
+    color: #d84315;
+    text-shadow: 2px 2px 0px #ff7043;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    font-size: 1.5em;
+}
+
+th, td {
+    padding: 20px;
+    border: 3px solid #ff7043;  /* Bordures épaisses */
+}
+
+th {
+    background-color: #ff7043;  /* Orange vif pour les entêtes */
+    color: white;
+    text-transform: uppercase;
+}
+
+td {
+    background-color: #ffccbc;  /* Couleur plus douce pour les lignes */
+}
+
+tbody tr:hover {
+    background-color: #ffe0b2;
 }
 
 #videoContainer {
@@ -33,4 +68,10 @@ body, html {
 video {
     width: 100%;
     height: 100%;
+}
+
+/* Piment décoratif */
+.chili-icon::before {
+    content: '🌶️';
+    margin-right: 10px;
 }
