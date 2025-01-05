@@ -6,7 +6,8 @@
     <title>Contrôle des Buzzers</title>
 </head>
 <body>
-    <h1>Contrôle des Buzzers et des Vidéos</h1>
+    <h1>Game master control panel</h1>
+    <h2>Contrôle des Jingles</h2>
 
     <div>
         <h2>Jingles</h2>
@@ -18,6 +19,20 @@
         <button onclick="playJingle(6)">Jingle 6</button>
     </div>
 
+    <h2>Contrôle des Buzzers</h2>
+
+    <div>
+        <button onclick="lockAll()">Verrouiller tous les buzzers</button>
+        <button onclick="unlockAll()">Déverrouiller tous les buzzers</button>
+        <button onclick="resetGame()">Reset de la partie</button>
+    </div>
+
+    <div>
+        <h3>Status en direct</h3>
+        <div id="buzzer-status">En attente de connexion...</div>
+    </div>
+
     <script src="js/contolJingle.js"></script>
+    <script src="js/buzzer.js"></script>
 </body>
 </html>
