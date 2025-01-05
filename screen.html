@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau des Scores</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        #scoreTable {
+            width: 100%;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #videoContainer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            z-index: 10;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scoreTable">
+        <h1>Tableau des Scores</h1>
+        <table border="1" width="50%" align="center">
+            <thead>
+                <tr>
+                    <th>Équipe</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Équipe A</td><td>120</td></tr>
+                <tr><td>Équipe B</td><td>95</td></tr>
+                <tr><td>Équipe C</td><td>150</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="videoContainer">
+        <video id="videoPlayer">
+            <source id="videoSource" src="" type="video/mp4">
+        </video>
+    </div>
+
+    <script src="js/screen.js"></script>
+</body>
+</html>
