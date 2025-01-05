@@ -8,32 +8,32 @@ channel.onmessage = (event) => {
     const { action, jingleId } = event.data;
 
     if (action === 'play') {
-        // Masquer le tableau des scores
-        scoreTable.style.display = 'none';
+        // Masquer le tableau des scores avec animation
+        scoreTable.classList.add('hidden');
 
-        // Afficher le lecteur vidéo
-        videoContainer.style.display = 'block';
+        // Attendre la fin de l'animation avant d'afficher la vidéo
+        setTimeout(() => {
+            videoContainer.style.display = 'block';
+            videoSource.src = `video/${jingleId}.mp4`;
+            videoPlayer.load();
+            videoPlayer.play();
 
-        // Charger et lire la vidéo
-        videoSource.src = `video/${jingleId}.mp4`;
-        videoPlayer.load();
-        videoPlayer.play();
-
-        // Passer en plein écran
-        if (videoContainer.requestFullscreen) {
-            videoContainer.requestFullscreen();
-        } else if (videoContainer.mozRequestFullScreen) { // Firefox
-            videoContainer.mozRequestFullScreen();
-        } else if (videoContainer.webkitRequestFullscreen) { // Chrome, Safari et Opera
-            videoContainer.webkitRequestFullscreen();
-        } else if (videoContainer.msRequestFullscreen) { // IE/Edge
-            videoContainer.msRequestFullscreen();
-        }
+            // Passer en plein écran
+            if (videoContainer.requestFullscreen) {
+                videoContainer.requestFullscreen();
+            } else if (videoContainer.mozRequestFullScreen) {
+                videoContainer.mozRequestFullScreen();
+            } else if (videoContainer.webkitRequestFullscreen) {
+                videoContainer.webkitRequestFullscreen();
+            } else if (videoContainer.msRequestFullscreen) {
+                videoContainer.msRequestFullscreen();
+            }
+        }, 800); // Correspond au temps de l'animation CSS
     }
 };
 
-// Réafficher le tableau des scores après la vidéo
+// Réaffiche le tableau après la fin de la vidéo
 videoPlayer.onended = () => {
     videoContainer.style.display = 'none';
-    scoreTable.style.display = 'block';
+    scoreTable.classList.remove('hidden');
 };
