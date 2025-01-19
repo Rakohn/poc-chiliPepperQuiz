@@ -1,16 +1,74 @@
-// Connexion WebSocket
-const socket = new WebSocket('ws://localhost:5000/buzzers-event');
+/**
+ * @deprecated this file is deprecated, kept as example
+ */
 
-socket.onopen = () => {
-    console.log('Connecté au WebSocket');
-    socket.send(JSON.stringify({ protocol: 'json', version: 1 }));
-};
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl("ws://localhost:5000/buzzers-event", {
+        transport: signalR.HttpTransportType.WebSockets, // Forcer WebSockets
+        skipNegotiation: true, // Désactiver la négociation pour WebSockets purs
+    }) // URL de connexion
+    .configureLogging(signalR.LogLevel.Information)
+    .build();
 
-socket.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    console.log('Événement reçu:', data);
-    document.getElementById('buzzer-status').innerText = JSON.stringify(data.arguments[0]);
-};
+// Événement déclenché lorsqu'un joueur a la main
+connection.on("playerHasTheHand", (buzzerData) => {
+    const buzzer = JSON.parse(buzzerData);
+    console.log(`Buzzer ${buzzer.id} a pris la main !`);
+    document.getElementById('buzzer-status').innerText =
+        `Buzzer ${buzzer.id} a pris la main !`;
+});
+
+// Événement déclenché lorsqu'un joueur a buzzé
+connection.on("playerPlayed", (buzzerData) => {
+    const buzzer = JSON.parse(buzzerData);
+    console.log(`Buzzer ${buzzer.id} a buzzé.`);
+});
+
+// Événement pour lister les buzzers connectés
+connection.on("playerListing", (buzzerList) => {
+    const buzzers = JSON.parse(buzzerList);
+    console.log("Buzzers connectés :", buzzers);
+});
+
+// Gestion des erreurs
+connection.onclose(err => {
+    console.error("Connexion fermée :", err);
+    document.getElementById('buzzer-status').innerText =
+        "Erreur de connexion au WebSocket.";
+});
+
+connection.serverTimeoutInMilliseconds = 1000 * 60 * 10; // 10 minutes
+connection.keepAliveIntervalInMilliseconds = 1000 * 60 * 5; // 5 minutes
+
+// Démarrer la connexion
+connection.start()
+    .then(() => {
+        console.log("Connecté au WebSocket via SignalR");
+
+        // Accéder au transport sous-jacent
+        const transport = connection.connection.transport;
+
+        // Intercepter les données brutes reçues par SignalR
+        transport.onreceive = (data) => {
+            // Séparer les messages groupés par le délimiteur \u001E
+            const messages = data.split("\u001E");
+            console.log(messages);
+
+            messages.forEach(message => {
+                if (message.trim()) {
+                    try {
+                        console.log(message);
+                        // Passer chaque message séparé au gestionnaire SignalR natif
+                        transport.onreceive.call(transport, message.trim() + "\u001E");
+                    } catch (error) {
+                        console.error("Erreur lors du traitement d'un message groupé :", error, message);
+                    }
+                }
+            });
+        };
+    })
+    // .then(() => console.log("Connecté au WebSocket via SignalR"))
+    .catch(err => console.error("Erreur lors de la connexion :", err));
 
 // Fonction pour verrouiller tous les buzzers
 function lockAll() {
