@@ -43,6 +43,15 @@
         </button>
     </div>
 
+    <div id="buzzer-management" style="margin-top: 20px;">
+        <h3>Gestion des Équipes</h3>
+        <button id="loadBuzzers">Charger les Buzzers Connectés</button>
+        <div id="buzzerListContainer" style="margin-top: 20px;">
+            <!-- La liste des buzzers connectés sera générée ici -->
+        </div>
+        <button id="saveTeams" style="margin-top: 20px;">Enregistrer</button>
+    </div>
+
     <script>
         const mockChannel = new BroadcastChannel('scoreChannel');
 
