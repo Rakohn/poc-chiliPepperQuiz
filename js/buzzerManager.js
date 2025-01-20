@@ -13,7 +13,7 @@ socket.onmessage = (event) => {
             const message = JSON.parse(rawMessage);
 
             if (message.type == 1) {
-                document.dispatchEvent(new CustomEvent(message.target, {arguments: message.arguments}));
+                document.dispatchEvent(new CustomEvent(message.target, {detail: message.arguments}));
             } else {
                 console.log(message);
             }
