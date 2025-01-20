@@ -9,7 +9,7 @@
 <body>
 
     <div id="scoreTable">
-        <h1>Tableau des Scores</h1>
+        <h1 class="chili-icon">Tableau des Scores</h1>
         <table border="1" width="50%" align="center">
             <thead>
                 <tr>
@@ -17,10 +17,8 @@
                     <th>Score</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr><td>Équipe A</td><td>120</td></tr>
-                <tr><td>Équipe B</td><td>95</td></tr>
-                <tr><td>Équipe C</td><td>150</td></tr>
+            <tbody id="scoreBody">
+                <!-- Scores dynamiques -->
             </tbody>
         </table>
     </div>
@@ -32,5 +30,6 @@
     </div>
 
     <script src="js/screen.js"></script>
+    <script src="js/scoreManager.js"></script>
 </body>
 </html>
