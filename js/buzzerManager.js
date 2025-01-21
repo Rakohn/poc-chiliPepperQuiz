@@ -27,26 +27,6 @@ document.addEventListener('playerHasTheHand', event => {
     console.log(event);
 });
 
-document.addEventListener('playerIsLocked', event => {
-    console.log(event);
-});
-
-document.addEventListener('playerPlayed', event => {
-    console.log(event);
-});
-
-document.addEventListener('playerHasReleasedTheHand', event => {
-    console.log(event);
-});
-
-document.addEventListener('playerIsReseted', event => {
-    console.log(event);
-});
-
-document.addEventListener('playerIsEnrolled', event => {
-    console.log(event);
-});
-
 document.addEventListener('playerListing', event => {
     const buzzers = event.detail; // Liste des buzzers envoyés par le serveur
     const buzzerListContainer = document.getElementById('buzzerListContainer');
@@ -87,10 +67,6 @@ document.addEventListener('playerListing', event => {
     });
 
     document.getElementById('saveTeams').hidden = false;
-});
-
-document.addEventListener('playerIsUnlocked', event => {
-    console.log(event);
 });
 
 function lockAll() {
