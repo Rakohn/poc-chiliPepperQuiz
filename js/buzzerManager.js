@@ -29,6 +29,14 @@ socket.onmessage = (event) => {
 };
 
 document.addEventListener('playerHasTheHand', event => {
+    hasHandBuzzerId = event.detail[0].id;
+    document.getElementById('controlButtonsContainer').hidden = false;
+
+    scorePageChannel.postMessage({
+        action: 'teamHasTheHand',
+        buzzerId: hasHandBuzzerId
+    });
+
     console.log(event);
 });
 
@@ -61,7 +69,7 @@ document.getElementById('invalidateButton').addEventListener("click", event => {
 // Mauvaise réponse ! On rend la main et en plus l'équipe perd des points
 document.getElementById('loseButton').addEventListener("click", event => {
     document.getElementById('controlButtonsContainer').hidden = true;
-    
+
     resetBuzzer();
 
     scorePageChannel.postMessage({
