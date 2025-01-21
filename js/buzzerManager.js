@@ -1,5 +1,10 @@
-document.getElementById('saveTeams').hidden = true;
+// On masque les bouton de contrôle de validation de réponse
+document.getElementById('controlButtonsContainer').hidden = true;
 
+//variable global pour enregistrer le buzzer qui a la main
+var hasHandBuzzerId = null;
+
+const scorePageChannel = new BroadcastChannel('scoreChannel');
 const socket = new WebSocket('ws://localhost:5000/buzzers-event');
 
 socket.onopen = () => {
@@ -27,46 +32,67 @@ document.addEventListener('playerHasTheHand', event => {
     console.log(event);
 });
 
+// Bonne réponse ! Reset de l'état des buzzers et on envoi le nombre de point à ajouter au tableau des scores
+document.getElementById('validateButton').addEventListener("click", event => {
+    document.getElementById('controlButtonsContainer').hidden = true;
+
+    resetBuzzer();
+
+    scorePageChannel.postMessage({
+        action: 'answered',
+        buzzerId: hasHandBuzzerId,
+        points: parseInt(document.getElementById('earnable').value)
+    });
+});
+
+// Mauvaise réponse ! On rend la main
+document.getElementById('invalidateButton').addEventListener("click", event => {
+    document.getElementById('controlButtonsContainer').hidden = true;
+
+    resetBuzzer();
+
+    scorePageChannel.postMessage({
+        action: 'answered',
+        buzzerId: hasHandBuzzerId,
+        points: 0
+    });
+});
+
+// Mauvaise réponse ! On rend la main et en plus l'équipe perd des points
+document.getElementById('loseButton').addEventListener("click", event => {
+    document.getElementById('controlButtonsContainer').hidden = true;
+    
+    resetBuzzer();
+
+    scorePageChannel.postMessage({
+        action: 'answered',
+        buzzerId: hasHandBuzzerId,
+        points: -parseInt(document.getElementById('earnable').value)
+    });
+});
+
 document.addEventListener('playerListing', event => {
     const buzzers = event.detail; // Liste des buzzers envoyés par le serveur
-    const buzzerListContainer = document.getElementById('buzzerListContainer');
-    const savedTeams = JSON.parse(localStorage.getItem('teams') ?? '{}');
-
-    // Réinitialise le conteneur pour éviter les doublons
-    while (buzzerListContainer.firstChild) {
-        buzzerListContainer.removeChild(buzzerListContainer.firstChild);
-    }
+    const availableTeams = getTeamsReference();
+    const teams = JSON.parse(localStorage.getItem('teams') ?? '{}');
 
     buzzers.forEach(buzzer => {
-        const buzzerElement = document.createElement('div');
-        buzzerElement.className = 'buzzer-entry';
-
-        const strongElement = document.createElement('strong');
-        strongElement.textContent = `Buzzer ID : ${buzzer.id}`;
-
-        const labelElement = document.createElement('label');
-        labelElement.setAttribute('for', `teamName-${buzzer.id}`);
-        labelElement.textContent = "Nom de l'équipe :";
-
-        const inputElement = document.createElement('input');
-        inputElement.setAttribute('type', 'text');
-        inputElement.setAttribute('id', `teamName-${buzzer.id}`);
-        inputElement.setAttribute('placeholder', "Entrez un nom d'équipe");
-        inputElement.style.marginLeft = '10px';
-
-        if (savedTeams[buzzer.id]) {
-            inputElement.value = savedTeams[buzzer.id].name;
+        if (!teams[buzzer.id]) {
+            teams[buzzer.id] = {
+                name: availableTeams[buzzer.id],
+                score: 0
+            };
         }
-
-        buzzerElement.appendChild(strongElement);
-        buzzerElement.appendChild(document.createElement('br'));
-        buzzerElement.appendChild(labelElement);
-        buzzerElement.appendChild(inputElement);
-
-        buzzerListContainer.appendChild(buzzerElement);
     });
 
-    document.getElementById('saveTeams').hidden = false;
+    scorePageChannel.postMessage({
+        action: "loadTeam",
+        content: teams
+    });
+
+    // Sauvegarde dans le localStorage
+    localStorage.setItem('teams', JSON.stringify(teams));
+    console.log('Équipes initialisées :', teams);
 });
 
 function lockAll() {
@@ -87,24 +113,16 @@ function unlockAll() {
     fetch('http://localhost:5000/game/unlock', {
         method: 'POST',
         mode: 'no-cors'
-    }).then(response => {
-        if (response.ok) {
-            alert('Tous les buzzers sont déverrouillés.');
-        }
     }).catch(err => {
         console.error('Erreur:', err);
     });
 }
 
 // Fonction pour reset la partie
-function resetGame() {
+function resetBuzzer() {
     fetch('http://localhost:5000/game/reset', {
         method: 'POST',
         mode: 'no-cors'
-    }).then(response => {
-        if (response.ok) {
-            alert('La partie est réinitialisée.');
-        }
     }).catch(err => {
         console.error('Erreur:', err);
     });
@@ -115,31 +133,16 @@ document.getElementById('loadBuzzers').addEventListener('click', event => {
     fetch('http://localhost:5000/buzzers', {mode: 'no-cors'});
 });
 
-// "Enregistrer" team management section button
-document.getElementById('saveTeams').addEventListener('click', event => {
-    const buzzerListContainer = document.getElementById('buzzerListContainer');
-    const teams = {};
+document.getElementById('newGame').addEventListener("click", event => {
+    resetBuzzerBuzzer();
+    localStorage.removeItem('teams');
+    document.getElementById('loadBuzzers').click();
 
-    // Parcourt les champs texte pour récupérer les noms d'équipe
-    const inputs = buzzerListContainer.querySelectorAll('input[type="text"]');
-    inputs.forEach(input => {
-        const buzzerId = input.id.split('-')[1]; // Extraire l'ID du buzzer à partir de l'ID du champ
-        const teamName = input.value.trim(); // Récupérer le nom de l'équipe
-
-        if (teamName) {
-            if (teams[buzzerId]) {
-                teams[buzzerId].name = teamName;
-            } else {
-                teams[buzzerId] = {
-                    name: teamName,
-                    score: 0
-                };
-            }
+    fetch('http://localhost:5000/game', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: {
+            giveHandDuration: 3600000,
         }
-    });
-
-    // Sauvegarde dans le localStorage
-    localStorage.setItem('teams', JSON.stringify(teams));
-    document.getElementById('saveTeams').hidden = true;
-    console.log('Équipes enregistrées :', teams);
+    }).catch(error => console.log(error));
 });
