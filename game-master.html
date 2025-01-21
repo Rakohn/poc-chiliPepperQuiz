@@ -19,12 +19,12 @@
         <button onclick="playJingle(6)">Jingle Le piment de la mort</button>
     </div>
 
-    <h2>Contrôle des Buzzers</h2>
+    <h2>Contrôle de la game</h2>
 
     <div>
         <button onclick="lockAll()">Verrouiller tous les buzzers</button>
         <button onclick="unlockAll()">Déverrouiller tous les buzzers</button>
-        <button onclick="resetGame()">Reset de la partie</button>
+        <!-- <button onclick="resetGame()">Reset de la partie</button> -->
     </div>
 
     <!-- <div>
@@ -34,88 +34,33 @@
 
     <div>
         <h3>Status en direct</h3>
+
         <div id="buzzer-status">Aucune équipe n'a la main</div>
-        <button id="validateButton" onclick="validateMock()" style="display:none;">
-            Valider la réponse
-        </button>
-        <button id="invalidateButton" onclick="invalidateMock()" style="display:none;">
-            Invalider la réponse
-        </button>
+
+        <div>
+            Nombre de points <input type="number" min="1" id="earnable" />
+        </div>
+
+        <div id="controlButtonsContainer">
+            <button id="validateButton">
+                Bonne réponse !
+            </button>
+
+            <button id="invalidateButton">
+                Mauvaise réponse !
+            </button>
+
+            <button id="loseButton">
+                Mauvaise réponse et tu perds des points
+            </button>
+        </div>
     </div>
 
     <div id="buzzer-management" style="margin-top: 20px;">
         <h3>Gestion des Équipes</h3>
         <button id="loadBuzzers">Charger les Buzzers Connectés</button>
-        <div id="buzzerListContainer" style="margin-top: 20px;">
-            <!-- La liste des buzzers connectés sera générée ici -->
-        </div>
-        <button id="saveTeams" style="margin-top: 20px;">Enregistrer</button>
+        <button id="newGame">Nouvelle Partie</button>
     </div>
-
-    <script>
-        const mockChannel = new BroadcastChannel('scoreChannel');
-
-        // Réception des messages du buzzer mock
-        mockChannel.onmessage = (event) => {
-            const { action, team } = event.data;
-
-            if (action === 'update') {
-                document.getElementById('buzzer-status').innerText =
-                    `${team} a pris la main !`;
-
-                // Affiche les boutons de validation/invalidation
-                document.getElementById('validateButton').style.display = 'block';
-                document.getElementById('invalidateButton').style.display = 'block';
-            }
-        };
-
-        // Valider et ajouter un point au buzzer simulé
-        function validateMock() {
-            showNotification('Réponse validée.');
-            unlockBuzzers();
-            hideValidationButtons();
-        }
-
-        // Invalider la réponse sans ajouter de point
-        function invalidateMock() {
-            showNotification('Réponse invalidée.');
-            unlockBuzzers();
-            hideValidationButtons();
-        }
-
-        // Déverrouille les buzzers
-        function unlockBuzzers() {
-            mockChannel.postMessage({
-                action: 'unlock'
-            });
-        }
-
-        // Cache les boutons de validation/invalidation
-        function hideValidationButtons() {
-            document.getElementById('validateButton').style.display = 'none';
-            document.getElementById('invalidateButton').style.display = 'none';
-        }
-
-        // Notification simple
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.innerText = message;
-            notification.style.position = 'fixed';
-            notification.style.top = '20px';
-            notification.style.left = '50%';
-            notification.style.transform = 'translateX(-50%)';
-            notification.style.backgroundColor = '#4CAF50';
-            notification.style.color = 'white';
-            notification.style.padding = '15px';
-            notification.style.borderRadius = '5px';
-            notification.style.zIndex = '1000';
-            document.body.appendChild(notification);
-
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-    </script>
 
     <!-- <script src="js/libs/signalr.min.js"></script> -->
     <script src="js/contolJingle.js"></script>
