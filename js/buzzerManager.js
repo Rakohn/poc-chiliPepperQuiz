@@ -88,6 +88,7 @@ document.getElementById('loseButton').addEventListener("click", event => {
     localStorage.setItem('teams', JSON.stringify(teams));
 });
 
+// Listing des équipes
 document.addEventListener('playerListing', event => {
     const buzzers = event.detail; // Liste des buzzers envoyés par le serveur
     const availableTeams = getTeamsReference();
@@ -151,7 +152,7 @@ document.getElementById('loadBuzzers').addEventListener('click', event => {
 });
 
 document.getElementById('newGame').addEventListener("click", event => {
-    resetBuzzerBuzzer();
+    resetBuzzer();
     localStorage.removeItem('teams');
     document.getElementById('loadBuzzers').click();
 
