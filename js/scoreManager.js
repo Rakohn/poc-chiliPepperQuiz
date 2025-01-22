@@ -2,12 +2,6 @@ const scoreChannel = new BroadcastChannel('scoreChannel');
 const teamContainer = document.getElementById('team-container');
 
 scoreChannel.onmessage = (event) => {
-    const { action, content } = event.data;
-
-    if (action === 'loadTeam') {
-        updateTeamCards(content);
-    }
-
     document.dispatchEvent(new CustomEvent(event.data.action, {detail: event.data}))
 };
 
@@ -35,4 +29,25 @@ document.addEventListener('loadTeam', event => {
 
         teamContainer.appendChild(card);
     });
+});
+
+document.addEventListener('teamHasTheHand', (event) => {
+    const { buzzerId } = event.detail;
+
+    // Création du calque
+    const overlay = document.createElement('div');
+    overlay.id = 'hasTheHandOverlay';
+    overlay.classList.add('team-overlay');
+
+    const teamImage = document.createElement('img');
+    teamImage.src = 'images/' + buzzerId + '.png';
+    teamImage.alt = 'Équipe avec la main';
+    overlay.appendChild(teamImage);
+
+    document.body.appendChild(overlay);
+});
+
+document.addEventListener('answered', event => {
+    document.getElementById('hasTheHandOverlay').remove();
+    document.getElementById('team-' + event.detail.buzzerId).textContent = event.detail.points;
 });

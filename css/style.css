@@ -68,3 +68,25 @@ body {
     color: #333;
     text-align: center; /* Centrer le score */
 }
+
+/* Calque pour l'équipe ayant la main */
+.team-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fond sombre semi-transparent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Toujours au-dessus des autres éléments */
+}
+
+.team-overlay img {
+    max-height: 90%; /* L'image occupe 90% de la hauteur de l'écran */
+    max-width: 90%; /* L'image est également limitée à 90% de la largeur */
+    object-fit: contain; /* Ajustement de l'image sans déformation */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
