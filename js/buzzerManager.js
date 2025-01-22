@@ -29,7 +29,6 @@ socket.onmessage = (event) => {
 };
 
 document.addEventListener('playerHasTheHand', event => {
-    console.log(event.detail);
     hasHandBuzzerId = event.detail.id;
     document.getElementById('controlButtonsContainer').hidden = false;
 
@@ -38,7 +37,8 @@ document.addEventListener('playerHasTheHand', event => {
         buzzerId: hasHandBuzzerId
     });
 
-    console.log(event);
+    const teams = JSON.parse(localStorage.getItem('teams'));
+    document.getElementById('buzzer-status').textContent = teams[hasHandBuzzerId].name;
 });
 
 // Bonne réponse ! Reset de l'état des buzzers et on envoi le nombre de point à ajouter au tableau des scores
@@ -145,6 +145,8 @@ function resetBuzzer() {
     }).catch(err => {
         console.error('Erreur:', err);
     });
+    
+    document.getElementById('buzzer-status').textContent = "Aucune équipe n'a la main";
 }
 
 // "Charger les Buzzers Connectés" button event
