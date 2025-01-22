@@ -43,40 +43,49 @@ document.addEventListener('playerHasTheHand', event => {
 // Bonne réponse ! Reset de l'état des buzzers et on envoi le nombre de point à ajouter au tableau des scores
 document.getElementById('validateButton').addEventListener("click", event => {
     document.getElementById('controlButtonsContainer').hidden = true;
+    const teams = JSON.parse(localStorage.getItem('teams'));
+    teams[hasHandBuzzerId].score += parseInt(document.getElementById('earnable').value);
 
     resetBuzzer();
 
     scorePageChannel.postMessage({
         action: 'answered',
         buzzerId: hasHandBuzzerId,
-        points: parseInt(document.getElementById('earnable').value)
+        points: teams[hasHandBuzzerId].score
     });
+
+    localStorage.setItem('teams', JSON.stringify(teams));
 });
 
 // Mauvaise réponse ! On rend la main
 document.getElementById('invalidateButton').addEventListener("click", event => {
     document.getElementById('controlButtonsContainer').hidden = true;
+    const teams = JSON.parse(localStorage.getItem('teams'));
 
     resetBuzzer();
 
     scorePageChannel.postMessage({
         action: 'answered',
         buzzerId: hasHandBuzzerId,
-        points: 0
+        points: teams[hasHandBuzzerId].score
     });
 });
 
 // Mauvaise réponse ! On rend la main et en plus l'équipe perd des points
 document.getElementById('loseButton').addEventListener("click", event => {
     document.getElementById('controlButtonsContainer').hidden = true;
+    const teams = JSON.parse(localStorage.getItem('teams'));
+    teams[hasHandBuzzerId].score += -parseInt(document.getElementById('earnable').value);
 
     resetBuzzer();
 
     scorePageChannel.postMessage({
         action: 'answered',
         buzzerId: hasHandBuzzerId,
-        points: -parseInt(document.getElementById('earnable').value)
+        points: teams[hasHandBuzzerId].score
     });
+
+    localStorage.setItem('teams', JSON.stringify(teams));
 });
 
 document.addEventListener('playerListing', event => {
