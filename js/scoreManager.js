@@ -7,16 +7,17 @@ scoreChannel.onmessage = (event) => {
     if (action === 'loadTeam') {
         updateTeamCards(content);
     }
+
+    document.dispatchEvent(new CustomEvent(event.data.action, {detail: event.data}))
 };
 
-function updateTeamCards(teams) {
-    // Nettoyer le conteneur avant de générer les nouvelles cartes
+document.addEventListener('loadTeam', event => {
     while (teamContainer.firstChild) {
         teamContainer.removeChild(teamContainer.firstChild);
     }
 
     // Générer les cartes dynamiquement
-    Object.entries(teams).forEach(([buzzerId, team]) => {
+    Object.entries(event.detail.content).forEach(([buzzerId, team]) => {
         const card = document.createElement('div');
         card.classList.add('card');
 
@@ -25,12 +26,13 @@ function updateTeamCards(teams) {
         image.alt = `Logo de l'équipe ${team.name}`;
 
         const score = document.createElement('div');
+        score.id = 'team-' + buzzerId;
         score.classList.add('score');
-        score.textContent = `${team.score} pts`;
+        score.textContent = team.score;
 
         card.appendChild(image);
         card.appendChild(score);
 
         teamContainer.appendChild(card);
     });
-}
+});
