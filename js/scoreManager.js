@@ -1,37 +1,36 @@
 const scoreChannel = new BroadcastChannel('scoreChannel');
-const scoreBody = document.getElementById('scoreBody');
+const teamContainer = document.getElementById('team-container');
 
-// Initialisation des équipes et scores
-let teams = [
-    { id: 1, team: 'Équipe Jalapeño', score: 0 },
-    { id: 2, team: 'Équipe Habanero', score: 0 },
-    { id: 3, team: 'Équipe Carolina Reaper', score: 0 },
-    { id: 4, team: 'Équipe Piment d\'Espelette', score: 0 }
-];
-
-// Mise à jour initiale
-updateScoreTable(teams);
-
-// Écoute des mises à jour des scores
 scoreChannel.onmessage = (event) => {
-    const { action, scores } = event.data;
+    const { action, content } = event.data;
 
-    if (action === 'scoreUpdate' && scores) {
-        teams = scores;
-        updateScoreTable(teams);
+    if (action === 'loadTeam') {
+        updateTeamCards(content);
     }
 };
 
-// Met à jour le tableau des scores
-function updateScoreTable(scores) {
-    scoreBody.innerHTML = '';  // Efface l'ancien contenu
+function updateTeamCards(teams) {
+    // Nettoyer le conteneur avant de générer les nouvelles cartes
+    while (teamContainer.firstChild) {
+        teamContainer.removeChild(teamContainer.firstChild);
+    }
 
-    scores.forEach(buzzer => {
-        scoreBody.innerHTML += `
-            <tr>
-                <td>${buzzer.team}</td>
-                <td>${buzzer.score}</td>
-            </tr>
-        `;
+    // Générer les cartes dynamiquement
+    Object.entries(teams).forEach(([buzzerId, team]) => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+
+        const image = document.createElement('img');
+        image.src = `images/${buzzerId}.png`;
+        image.alt = `Logo de l'équipe ${team.name}`;
+
+        const score = document.createElement('div');
+        score.classList.add('score');
+        score.textContent = `${team.score} pts`;
+
+        card.appendChild(image);
+        card.appendChild(score);
+
+        teamContainer.appendChild(card);
     });
 }
