@@ -1,17 +1,10 @@
-const scoreChannel = new BroadcastChannel('scoreChannel');
-const teamContainer = document.getElementById('team-container');
-
-scoreChannel.onmessage = (event) => {
-    document.dispatchEvent(new CustomEvent(event.data.action, {detail: event.data}))
-};
-
-document.addEventListener('loadTeam', event => {
+function displayTeams(teams) {
     while (teamContainer.firstChild) {
         teamContainer.removeChild(teamContainer.firstChild);
     }
 
     // Générer les cartes dynamiquement
-    Object.entries(event.detail.content).forEach(([buzzerId, team]) => {
+    Object.entries(teams).forEach(([buzzerId, team]) => {
         const card = document.createElement('div');
         card.classList.add('card');
 
@@ -29,6 +22,18 @@ document.addEventListener('loadTeam', event => {
 
         teamContainer.appendChild(card);
     });
+}
+
+const scoreChannel = new BroadcastChannel('scoreChannel');
+const teamContainer = document.getElementById('team-container');
+
+scoreChannel.onmessage = (event) => {
+    document.dispatchEvent(new CustomEvent(event.data.action, {detail: event.data}))
+};
+
+document.addEventListener('loadTeam', event => {
+    // Générer les cartes dynamiquement
+    displayTeams(event.detail.content);
 });
 
 document.addEventListener('teamHasTheHand', (event) => {
@@ -51,3 +56,5 @@ document.addEventListener('answered', event => {
     document.getElementById('hasTheHandOverlay').remove();
     document.getElementById('team-' + event.detail.buzzerId).textContent = event.detail.points;
 });
+
+displayTeams(JSON.parse(localStorage.getItem('teams') ?? '{}'));
