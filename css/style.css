@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap');
+
 /* === Styles pour le lecteur vidéo (inchangé) === */
 #videoContainer {
     position: fixed;
@@ -29,7 +31,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f8f9fa;
+    background-color: #db0200;
+    /* db0200 f8f9fa */
     font-family: Arial, sans-serif;
 }
 
@@ -38,7 +41,7 @@ body {
     flex-wrap: wrap; /* Permet de passer les cartes sur plusieurs lignes */
     justify-content: center; /* Centrage horizontal */
     align-items: center; /* Centrage vertical */
-    gap: 20px; /* Espacement entre les cartes */
+    gap: 80px; /* Espacement entre les cartes */
     padding: 20px;
     max-width: 100%;
     max-height: 100%;
@@ -51,9 +54,11 @@ body {
     flex-direction: column;
     align-items: center;
     border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #ffbc4e;
+    /* ffbc4e fff */
+    box-shadow: 0px 0px 3px 10px rgba(0, 0, 0, 0.1);
     max-width: 350px;
+    overflow: hidden;
 }
 
 .card img {
@@ -62,10 +67,12 @@ body {
 }
 
 .card .score {
-    font-size: 1.5rem;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 3.5rem;
     font-weight: bold;
     margin: 8px, 0, 8px, 0;
-    color: #333;
+    color: #4ea677;
+    /* 4ea677 333 */
     text-align: center; /* Centrer le score */
 }
 
