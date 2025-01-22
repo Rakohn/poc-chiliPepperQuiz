@@ -29,7 +29,8 @@ socket.onmessage = (event) => {
 };
 
 document.addEventListener('playerHasTheHand', event => {
-    hasHandBuzzerId = event.detail[0].id;
+    console.log(event.detail);
+    hasHandBuzzerId = event.detail.id;
     document.getElementById('controlButtonsContainer').hidden = false;
 
     scorePageChannel.postMessage({
