@@ -4,63 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contrôle des Buzzers</title>
+    <link rel="stylesheet" href="css/gameMaster.css">
 </head>
 <body>
-    <h1>Game master control panel</h1>
-    <h2>Contrôle des Jingles</h2>
+    <header>
+        <h1>Game master control panel</h1>
+    </header>
 
-    <div>
-        <h2>Jingles</h2>
-        <button onclick="playJingle(1)">Jingle lancement</button>
-        <button onclick="playJingle(2)">Jingle Harissa ou Tabasco</button>
-        <button onclick="playJingle(3)">Jingle Hot wings</button>
-        <button onclick="playJingle(4)">Jingle Menu</button>
-        <button onclick="playJingle(5)">Jingle L'échel de scoville</button>
-        <button onclick="playJingle(6)">Jingle Le piment de la mort</button>
-    </div>
+    <main>
+        <section id="jingle-controls">
+            <h2>Contrôle des Jingles</h2>
 
-    <h2>Contrôle de la game</h2>
+            <div class="jingle-buttons">
+                <button onclick="playJingle(1)" class="jingle-btn">Jingle lancement</button>
+                <button onclick="playJingle(2)" class="jingle-btn">Jingle Harissa ou Tabasco</button>
+                <button onclick="playJingle(3)" class="jingle-btn">Jingle Hot wings</button>
+                <button onclick="playJingle(4)" class="jingle-btn">Jingle Menu</button>
+                <button onclick="playJingle(5)" class="jingle-btn">Jingle L'échel de scoville</button>
+                <button onclick="playJingle(6)" class="jingle-btn">Jingle Le piment de la mort</button>
+            </div>
+        </section>
 
-    <div>
-        <button onclick="lockAll()">Verrouiller tous les buzzers</button>
-        <button onclick="unlockAll()">Déverrouiller tous les buzzers</button>
-        <!-- <button onclick="resetGame()">Reset de la partie</button> -->
-    </div>
+        <section id="game-controls">
+            <h2>Contrôle de la game</h2>
 
-    <!-- <div>
-        <h3>Status en direct</h3>
-        <div id="buzzer-status">En attente de connexion...</div>
-    </div> -->
+            <div>
+                <button class="buzzer-btn" onclick="lockAll()">Verrouiller tous les buzzers</button>
+                <button class="buzzer-btn" onclick="unlockAll()">Déverrouiller tous les buzzers</button>
+                <!-- <button onclick="resetGame()">Reset de la partie</button> -->
+            </div>
+        </section>
 
-    <div>
-        <h3>Status en direct</h3>
+        <section id="live-status">
+            <h2>Status en direct</h2>
 
-        <div id="buzzer-status">Aucune équipe n'a la main</div>
+            <div id="buzzer-status" class="status-box">Aucune équipe n'a la main</div>
 
-        <div>
-            Nombre de points <input type="number" min="1" id="earnable" />
-        </div>
+            <div class="form-group">
+                <label for="earnable">Nombre de points :</label>
+                <input type="number" min="1" id="earnable" class="input-field" value="1" />
+            </div>
 
-        <div id="controlButtonsContainer">
-            <button id="validateButton">
-                Bonne réponse !
-            </button>
+            <div id="controlButtonsContainer" class="grid">
+                <button class="control-btn" id="validateButton">
+                    Bonne réponse !
+                </button>
 
-            <button id="invalidateButton">
-                Mauvaise réponse !
-            </button>
+                <button class="control-btn" id="invalidateButton">
+                    Mauvaise réponse !
+                </button>
 
-            <button id="loseButton">
-                Mauvaise réponse et tu perds des points
-            </button>
-        </div>
-    </div>
+                <button class="control-btn" id="loseButton">
+                    Mauvaise réponse et tu perds des points
+                </button>
+            </div>
+        </section>
 
-    <div id="buzzer-management" style="margin-top: 20px;">
-        <h3>Gestion des Équipes</h3>
-        <button id="loadBuzzers">Charger les Buzzers Connectés</button>
-        <button id="newGame">Nouvelle Partie</button>
-    </div>
+        <section id="buzzer-management">
+            <h2>Gestion des Équipes</h2>
+            <div class="team-buttons">
+                <button class="management-btn" id="loadBuzzers">Charger les Buzzers Connectés</button>
+                <button class="management-btn" id="newGame">Nouvelle Partie</button>
+            </div>
+        </section>
+    </main>
 
     <script src="js/teamReference.js"></script>
     <script src="js/controlJingle.js"></script>
