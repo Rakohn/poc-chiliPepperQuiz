@@ -1,35 +1,24 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau des Scores</title>
-    <link rel="stylesheet" href="css/screen.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tableau des Scores</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <!-- Conteneur pour le lecteur vidéo -->
+        <div id="videoContainer" class="hidden">
+            <video id="videoPlayer" autoplay>
+                <source id="videoSource" type="video/mp4">
+            </video>
+        </div>
 
-    <div id="scoreTable">
-        <h1 class="chili-icon">Tableau des Scores</h1>
-        <table border="1" width="50%" align="center">
-            <thead>
-                <tr>
-                    <th>Équipe</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody id="scoreBody">
-                <!-- Scores dynamiques -->
-            </tbody>
-        </table>
-    </div>
+        <!-- Conteneur pour les cartes -->
+        <div id="team-container" class="flex-container"></div>
 
-    <div id="videoContainer">
-        <video id="videoPlayer">
-            <source id="videoSource" src="" type="video/mp4">
-        </video>
-    </div>
 
-    <script src="js/screen.js"></script>
-    <script src="js/scoreManager.js"></script>
-</body>
+        <script src="js/screen.js"></script>
+        <script src="js/scoreManager.js"></script>
+    </body>
 </html>
