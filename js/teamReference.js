@@ -1,5 +1,6 @@
 function getTeamsReference() {
     return {
+        1: "Team test",
         2: "Roasted Hell",
         3: "Caboom Tracer",
         4: "Da'Bomb Ground Zero",
