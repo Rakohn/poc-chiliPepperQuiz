@@ -1,0 +1,70 @@
+/* === Styles pour le lecteur vidéo (inchangé) === */
+#videoContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#videoContainer.hidden {
+    display: none;
+}
+
+#videoContainer video {
+    width: 100%;
+    height: 100%;
+}
+
+/* === Styles pour le conteneur des cartes === */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap; /* Permet de passer les cartes sur plusieurs lignes */
+    justify-content: center; /* Centrage horizontal */
+    align-items: center; /* Centrage vertical */
+    gap: 20px; /* Espacement entre les cartes */
+    padding: 20px;
+    max-width: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
+}
+
+/* === Styles pour les cartes === */
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 350px;
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+}
+
+.card .score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 8px, 0, 8px, 0;
+    color: #333;
+    text-align: center; /* Centrer le score */
+}
